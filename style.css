@@ -4,7 +4,11 @@
     padding:0px;
 }
 
+.checked{
+    text-decoration: line-through;
+    color:#40514e;
 
+}
 .fas{
     color: #00bd56;
 }
