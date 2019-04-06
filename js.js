@@ -34,6 +34,9 @@ window.addEventListener('load', function(e){
             list.removeChild(parent);
          }else{
          if(e.target.classList.contains('fa-circle')){
+            const parent = e.target.parentElement;
+            list.appendChild(parent);
+
                 e.target.classList.remove('fa-circle');
                 e.target.classList.add('fa-check-circle');
                 e.target.nextElementSibling.classList.add('checked');
@@ -46,12 +49,17 @@ window.addEventListener('load', function(e){
          }
 
          if(e.target.classList.contains('txt')){
+           
             e.target.classList.toggle('checked');
             const checkBox = e.target.previousSibling;
             if(checkBox.classList.contains('fa-check-circle')){
                   checkBox.classList.remove('fa-check-circle');
                   checkBox.classList.add('fa-circle');
+               
+
             }else{
+               const parent = e.target.parentElement;
+               list.appendChild(parent);
                checkBox.classList.remove('fa-circle');
                checkBox.classList.add('fa-check-circle');
                
