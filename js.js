@@ -9,20 +9,17 @@ addBtn.addEventListener('click', function(e){
         const el =  document.createElement("li");
         const icon =  document.createElement("i");
         const trash = document.createElement("i");
-       // const label = document.createElement('label');
         trash.classList.add('fas');
         trash.classList.add('fa-trash-alt');
         icon.classList.add('far');
-        icon.classList.add('fa-check-circle');
+       icon.classList.add('fa-circle');
     
         el.appendChild(icon);
-        //span.innerHTML +=index.value;
         el.innerHTML += '<label class="txt">' + index.value + '</label>';
-        //el.appendChild(label);
-        //el.appendChild(span);
         el.appendChild(trash);
         el.classList.add('list-el');
-        list.appendChild(el);
+        //list.appendChild(el);
+        list.insertBefore(el, list.childNodes[0]);
         index.value = '';
 
 }
@@ -36,15 +33,14 @@ window.addEventListener('load', function(e){
             const parent = e.target.parentElement;
             list.removeChild(parent);
          }else{
-         if(e.target.classList.contains('far')){
-                e.target.classList.remove('far');
-                e.target.classList.add('fas');
+         if(e.target.classList.contains('fa-circle')){
+                e.target.classList.remove('fa-circle');
+                e.target.classList.add('fa-check-circle');
                 e.target.nextElementSibling.classList.add('checked');
                 
-         }else if(e.target.classList.contains('fas')){
-
-                e.target.classList.remove('fas');
-                e.target.classList.add('far');
+         }else if(e.target.classList.contains('fa-check-circle')){
+                e.target.classList.remove('fa-check-circle');
+                e.target.classList.add('fa-circle');
                 e.target.nextElementSibling.classList.remove('checked');
 
          }
@@ -52,12 +48,13 @@ window.addEventListener('load', function(e){
          if(e.target.classList.contains('txt')){
             e.target.classList.toggle('checked');
             const checkBox = e.target.previousSibling;
-            if(checkBox.classList.contains('far')){
-                  checkBox.classList.remove('far');
-                  checkBox.classList.add('fas');
+            if(checkBox.classList.contains('fa-check-circle')){
+                  checkBox.classList.remove('fa-check-circle');
+                  checkBox.classList.add('fa-circle');
             }else{
-               checkBox.classList.remove('fas');
-               checkBox.classList.add('far');
+               checkBox.classList.remove('fa-circle');
+               checkBox.classList.add('fa-check-circle');
+               
             }
           
 
