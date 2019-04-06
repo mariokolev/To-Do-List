@@ -2,28 +2,27 @@ const index = document.querySelector('.name-do');
 const addBtn = document.querySelector('.add-btn');
 const list = document.querySelector('.list');
 
+
 addBtn.addEventListener('click', function(e){
 
    if(index.value){
         const el =  document.createElement("li");
         const icon =  document.createElement("i");
         const trash = document.createElement("i");
-        const span = document.createElement('span');
-        const label = document.createElement('label');
+       // const label = document.createElement('label');
         trash.classList.add('fas');
         trash.classList.add('fa-trash-alt');
         icon.classList.add('far');
         icon.classList.add('fa-check-circle');
     
-        span.appendChild(icon);
+        el.appendChild(icon);
         //span.innerHTML +=index.value;
-        label.innerHTML +=index.value;
-        span.appendChild(label);
-        el.appendChild(span);
+        el.innerHTML += '<label class="txt">' + index.value + '</label>';
+        //el.appendChild(label);
+        //el.appendChild(span);
         el.appendChild(trash);
         el.classList.add('list-el');
         list.appendChild(el);
-        
         index.value = '';
 
 }
@@ -38,6 +37,8 @@ window.addEventListener('load', function(e){
             list.removeChild(parent);
          }else{
 
+            
+
          if(e.target.classList.contains('far')){
                 e.target.classList.remove('far');
                 e.target.classList.add('fas');
@@ -51,21 +52,27 @@ window.addEventListener('load', function(e){
 
          }
 
-        }
-         if(e.target.classList.contains('txt')  ){
-            e.target.classList.add('checked');
-           // e.target.nextElementSibling.classList.add('checked');
+         if(e.target.classList.contains('txt')){
+            e.target.classList.toggle('checked');
+            const checkBox = e.target.previousSibling;
+            if(checkBox.classList.contains('far')){
+                  checkBox.classList.remove('far');
+                  checkBox.classList.add('fas');
+            }else{
+               checkBox.classList.remove('fas');
+               checkBox.classList.add('far');
+            }
+          
 
-        }else  {
 
-            e.target.classList.remove('checked');
-            console.log('zacherknatiq');
-            console.log(e.target);
+         }
         }
+         
      })
 
 
 });
+
 
 
 
