@@ -36,9 +36,6 @@ window.addEventListener('load', function(e){
             const parent = e.target.parentElement;
             list.removeChild(parent);
          }else{
-
-            
-
          if(e.target.classList.contains('far')){
                 e.target.classList.remove('far');
                 e.target.classList.add('fas');
