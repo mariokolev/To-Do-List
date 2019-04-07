@@ -1,78 +1,128 @@
-const input = document.querySelector('.name-do');
-const addBtn = document.querySelector('.add-btn');
 const list = document.querySelector('.list');
+const input = document.querySelector('.name-do');
 
 
-addBtn.addEventListener('click', function(e){
+class Task{
+   constructor(input){
+      this.input = input;
+   }
 
-   if(input.value){
-        const element= document.createElement("li");
-       
-        element.classList.add('list-el');
-        element.innerHTML =  `
-                              <i class="far fa-circle"></i>
-                              <label class="txt">${input.value}</label>
-                              <i class="fas fa-trash-alt"></i>
-      `;
-      list.insertBefore(element, list.childNodes[0]);
-      input.value = '';
-}
-});
+   static displayList(){
+      const tasks = Store.getTasks();
 
-window.addEventListener('load', function(e){
+      tasks.forEach((task) => Task.addToList(task)); 
+   }
 
-   document.querySelector('form').addEventListener('submit', function(e){
-      e.preventDefault();
-   }) ; 
+   static addToList(task){
+      const li = document.createElement("li");
 
+         li.classList.add('list-el');
+         li.innerHTML =  `
+                                 <i class="far fa-circle"></i>
+                                 <label class="txt">${task.input}</label>
+                                 <i class="fas fa-trash-alt delete"></i>
+         `;
 
-   list.addEventListener('click', function(e){
+         list.insertBefore(li, list.childNodes[0]);
       
-        e.preventDefault();
-         if(e.target.classList.contains('fa-trash-alt')){
-            const parent = e.target.parentElement;
-            list.removeChild(parent);
+   }
+
+   static checkList(element) {
+         if(element.classList.contains('fa-circle')){
+            list.appendChild(element.parentElement);
+            element.classList.remove('fa-circle');
+            element.classList.add('fa-check-circle');
+            element.nextElementSibling.classList.add('checked');
+         }else if(element.classList.contains('fa-check-circle')){
+            element.classList.remove('fa-check-circle');
+            element.classList.add('fa-circle');
+            element.nextElementSibling.classList.remove('checked');
+      }else if(element.classList.contains('txt')){
+
+         element.classList.toggle('checked');
+         const checkBox = element.previousElementSibling;
+
+         if(checkBox.classList.contains('fa-check-circle')){
+               checkBox.classList.remove('fa-check-circle');
+               checkBox.classList.add('fa-circle');
          }else{
-         if(e.target.classList.contains('fa-circle')){
-            const parent = e.target.parentElement;
+            const parent = element.parentElement;
             list.appendChild(parent);
-
-                e.target.classList.remove('fa-circle');
-                e.target.classList.add('fa-check-circle');
-                e.target.nextElementSibling.classList.add('checked');
-                
-         }else if(e.target.classList.contains('fa-check-circle')){
-                e.target.classList.remove('fa-check-circle');
-                e.target.classList.add('fa-circle');
-                e.target.nextElementSibling.classList.remove('checked');
-
+            checkBox.classList.remove('fa-circle');
+            checkBox.classList.add('fa-check-circle');
+            
          }
+   }
 
-         if(e.target.classList.contains('txt')){
-           
-            e.target.classList.toggle('checked');
-            const checkBox = e.target.previousElementSibling;
-            if(checkBox.classList.contains('fa-check-circle')){
-                  checkBox.classList.remove('fa-check-circle');
-                  checkBox.classList.add('fa-circle');
-               
+}
+        
+   static removeFromList(element){
+      if(element.classList.contains('delete')){
+         list.removeChild(element.parentElement);
+     }
+   }
 
-            }else{
-               const parent = e.target.parentElement;
-               list.appendChild(parent);
-               checkBox.classList.remove('fa-circle');
-               checkBox.classList.add('fa-check-circle');
-               
-            }
-          
+   static clearInput(){
+      document.querySelector('input').value = '';
+    }
+}
 
+class Store{
+   static getTasks() {
+      let tasks;
+      if(localStorage.getItem('tasks') === null){
+         tasks = [];
+      }else{
+         tasks = JSON.parse(localStorage.getItem('tasks'));
+      }
 
-         }
+      return tasks;
+   }
+
+   static addTask(element){
+      const tasks = Store.getTasks();
+      tasks.push(element);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+   }
+
+   static removeTask(input){
+      const tasks = Store.getTasks();
+
+      tasks.forEach((task, index) => {
+        if(task.input === input){
+            tasks.splice(index, 1);
         }
-         
-     });
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
 
+   }
 
+   
+}
+document.addEventListener("DOMContentLoaded", Task.displayList);
+window.addEventListener('load', function(){
+
+         document.querySelector('form').addEventListener('submit', function(e){
+            e.preventDefault();
+            const input  = document.querySelector('input').value;
+            if(input.value == ''){
+               alert('fill the empty field');
+            }else{
+
+            const task = new Task(input);
+
+            Task.addToList(task);
+            Store.addTask(task);
+            Task.clearInput();
+         }
+            
+         });
+
+         document.querySelector('.list').addEventListener('click', function(e){
+            Task.removeFromList(e.target);
+            Store.removeTask(e.target.previousElementSibling.textContent);
+            Task.checkList(e.target);
+         });
 });
 
 
