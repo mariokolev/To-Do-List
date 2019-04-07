@@ -3,8 +3,8 @@ const input = document.querySelector('.name-do');
 
 
 class Task{
-   constructor(input){
-      this.input = input;
+   constructor(task){
+      this.task = task;
    }
 
    static displayList(){
@@ -19,7 +19,7 @@ class Task{
          li.classList.add('list-el');
          li.innerHTML =  `
                                  <i class="far fa-circle"></i>
-                                 <label class="txt">${task.input}</label>
+                                 <label class="txt">${task.task}</label>
                                  <i class="fas fa-trash-alt delete"></i>
          `;
 
@@ -89,7 +89,7 @@ class Store{
       const tasks = Store.getTasks();
 
       tasks.forEach((task, index) => {
-        if(task.input === input){
+        if(task.task === input){
             tasks.splice(index, 1);
         }
       });
