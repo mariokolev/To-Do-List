@@ -104,7 +104,7 @@ window.addEventListener('load', function(){
 
          document.querySelector('form').addEventListener('submit', function(e){
             e.preventDefault();
-            const input  = document.querySelector('input').value;
+            //const input  = document.querySelector('input').value;
             if(input.value == ''){
                alert('fill the empty field');
             }else{
@@ -119,6 +119,7 @@ window.addEventListener('load', function(){
          });
 
          document.querySelector('.list').addEventListener('click', function(e){
+            
             Task.removeFromList(e.target);
             Store.removeTask(e.target.previousElementSibling.textContent);
             Task.checkList(e.target);
