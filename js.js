@@ -106,7 +106,7 @@ window.addEventListener('load', function(){
          document.querySelector('form').addEventListener('submit', function(e){
             e.preventDefault();
             const inputText  = document.querySelector('input').value;
-            if(inputText.value == ''){
+            if(input.value == ''){
                alert('fill the empty field');
             }else{
 
