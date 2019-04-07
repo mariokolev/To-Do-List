@@ -13,13 +13,13 @@ class Task{
       tasks.forEach((task) => Task.addToList(task)); 
    }
 
-   static addToList(task){
+   static addToList(element){
       const li = document.createElement("li");
 
          li.classList.add('list-el');
          li.innerHTML =  `
                                  <i class="far fa-circle"></i>
-                                 <label class="txt">${task.task}</label>
+                                 <label class="txt">${element.task}</label>
                                  <i class="fas fa-trash-alt delete"></i>
          `;
 
