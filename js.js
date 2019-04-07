@@ -105,12 +105,12 @@ window.addEventListener('load', function(){
 
          document.querySelector('form').addEventListener('submit', function(e){
             e.preventDefault();
-            //const input  = document.querySelector('input').value;
-            if(input.value == ''){
+            const inputText  = document.querySelector('input').value;
+            if(inputText.value == ''){
                alert('fill the empty field');
             }else{
 
-            const task = new Task(input.value);
+            const task = new Task(inputText);
             
             Task.addToList(task);
             Store.addTask(task);
