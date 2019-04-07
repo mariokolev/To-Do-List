@@ -14,6 +14,7 @@ class Task{
    }
 
    static addToList(element){
+
       const li = document.createElement("li");
 
          li.classList.add('list-el');
@@ -109,8 +110,8 @@ window.addEventListener('load', function(){
                alert('fill the empty field');
             }else{
 
-            const task = new Task(input);
-
+            const task = new Task(input.value);
+            
             Task.addToList(task);
             Store.addTask(task);
             Task.clearInput();
@@ -121,7 +122,10 @@ window.addEventListener('load', function(){
          document.querySelector('.list').addEventListener('click', function(e){
             
             Task.removeFromList(e.target);
-            Store.removeTask(e.target.previousElementSibling.textContent);
+            if(e.target.previousElementSibling != null){
+               Store.removeTask(e.target.previousElementSibling.textContent);
+
+            }
             Task.checkList(e.target);
          });
 });
