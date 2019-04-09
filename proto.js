@@ -177,7 +177,11 @@ window.addEventListener('load', function(){
 
             }
             Task.checkList(e.target);
+            //when text is being clicked 
             Store.chTask(e.target.textContent);
+            //when circle icon is being clicked
+            Store.chTask(e.target.nextElementSibling.textContent);
+
          });
 });
 
