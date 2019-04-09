@@ -40,7 +40,6 @@ class Task{
 
    static checkList(element) {
          if(element.classList.contains('fa-circle')){
-           //list.appendChild(element.parentElement);
             element.classList.remove('fa-circle');
             element.classList.add('fa-check-circle');
             element.nextElementSibling.classList.add('checked');
@@ -62,8 +61,6 @@ class Task{
                checkBox.classList.remove('fa-check-circle');
                checkBox.classList.add('fa-circle');
          }else{
-          /*  const parent = element.parentElement;
-            list.appendChild(parent);*/
             checkBox.classList.remove('fa-circle');
             checkBox.classList.add('fa-check-circle');
             
@@ -77,8 +74,6 @@ class Task{
             checkBox.classList.remove('fa-check-circle');
             checkBox.classList.add('fa-circle');
       }else{
-       /*  const parent = element.parentElement;
-         list.appendChild(parent);*/
          checkBox.classList.remove('fa-circle');
          checkBox.classList.add('fa-check-circle');
          
@@ -180,7 +175,12 @@ window.addEventListener('load', function(){
             //when text is being clicked 
             Store.chTask(e.target.textContent);
             //when circle icon is being clicked
+            
+          if(e.target.nextElementSibling != undefined){
             Store.chTask(e.target.nextElementSibling.textContent);
+          }
+            
+
 
          });
 });
