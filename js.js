@@ -3,24 +3,33 @@ const input = document.querySelector('.name-do');
 
 
 class Task{
-   constructor(task){
+   constructor(task,status){
       this.task = task;
+      this.status = status;
    }
 
    static displayList(){
       const tasks = Store.getTasks();
 
-      tasks.forEach((task) => Task.addToList(task)); 
+      for(let i = 0; i < tasks.length; i++){
+         if(tasks[i].status === false){
+            //tasks[i].status = true;
+            Task.addToList(tasks[i],'unchecked','fa-circle');
+         }else{
+           // tasks[i].status = false;
+            Task.addToList(tasks[i],'checked', 'fa-check-circle');
+         }
+      }
    }
 
-   static addToList(element){
+   // add to status class
+   static addToList(element, status, icon){
 
       const li = document.createElement("li");
-
          li.classList.add('list-el');
          li.innerHTML =  `
-                                 <i class="far fa-circle"></i>
-                                 <label class="txt">${element.task}</label>
+                                 <i class="far ${icon}"></i>
+                                 <label class="${status}">${element.task}</label>
                                  <i class="fas fa-trash-alt delete"></i>
          `;
 
@@ -30,29 +39,44 @@ class Task{
 
    static checkList(element) {
          if(element.classList.contains('fa-circle')){
-            list.appendChild(element.parentElement);
             element.classList.remove('fa-circle');
             element.classList.add('fa-check-circle');
             element.nextElementSibling.classList.add('checked');
+            element.nextElementSibling.classList.remove('unchecked');
+
          }else if(element.classList.contains('fa-check-circle')){
             element.classList.remove('fa-check-circle');
             element.classList.add('fa-circle');
             element.nextElementSibling.classList.remove('checked');
-      }else if(element.classList.contains('txt')){
+            element.nextElementSibling.classList.add('unchecked');
 
-         element.classList.toggle('checked');
+      }else if(element.classList.contains('unchecked')){
+
+         element.classList.add('checked');
+         element.classList.remove('unchecked');
          const checkBox = element.previousElementSibling;
 
          if(checkBox.classList.contains('fa-check-circle')){
                checkBox.classList.remove('fa-check-circle');
                checkBox.classList.add('fa-circle');
          }else{
-            const parent = element.parentElement;
-            list.appendChild(parent);
             checkBox.classList.remove('fa-circle');
             checkBox.classList.add('fa-check-circle');
             
          }
+   }else if(element.classList.contains('checked')){
+      element.classList.add('unchecked');
+      element.classList.remove('checked');
+      const checkBox = element.previousElementSibling;
+
+      if(checkBox.classList.contains('fa-check-circle')){
+            checkBox.classList.remove('fa-check-circle');
+            checkBox.classList.add('fa-circle');
+      }else{
+         checkBox.classList.remove('fa-circle');
+         checkBox.classList.add('fa-check-circle');
+         
+      }
    }
 
 }
@@ -86,6 +110,26 @@ class Store{
       localStorage.setItem('tasks', JSON.stringify(tasks));
    }
 
+   static chTask(input){
+      const tasks = Store.getTasks();
+   
+         for(let i = 0; i < tasks.length; i++){
+            if(tasks[i].task === input){
+                  console.log(tasks[i].task);
+                  if(tasks[i].status === false){
+                     tasks[i].status = true;
+                  }else{
+                     tasks[i].status = false;
+                  }
+                  console.log(tasks[i].status);
+
+            }
+         }
+      
+         localStorage.setItem('tasks', JSON.stringify(tasks));
+   }
+   
+
    static removeTask(input){
       const tasks = Store.getTasks();
 
@@ -110,10 +154,10 @@ window.addEventListener('load', function(){
                alert('fill the empty field');
             }else{
 
-            const task = new Task(inputText);
-            
-            Task.addToList(task);
-            Store.addTask(task);
+            const task = new Task(inputText, false);
+            console.log(task);
+            Task.addToList(task, 'unchecked', 'fa-circle');
+            Store.addTask(task, false);
             Task.clearInput();
          }
             
@@ -127,6 +171,16 @@ window.addEventListener('load', function(){
 
             }
             Task.checkList(e.target);
+            //when text is being clicked 
+            Store.chTask(e.target.textContent);
+            //when circle icon is being clicked
+            
+          if(e.target.nextElementSibling != undefined){
+            Store.chTask(e.target.nextElementSibling.textContent);
+          }
+            
+
+
          });
 });
 
