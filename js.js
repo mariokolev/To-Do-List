@@ -115,13 +115,11 @@ class Store{
    
          for(let i = 0; i < tasks.length; i++){
             if(tasks[i].task === input){
-                  console.log(tasks[i].task);
                   if(tasks[i].status === false){
                      tasks[i].status = true;
                   }else{
                      tasks[i].status = false;
                   }
-                  console.log(tasks[i].status);
 
             }
          }
